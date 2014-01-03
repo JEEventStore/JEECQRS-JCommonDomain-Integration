@@ -28,11 +28,13 @@ import org.jeecqrs.sagas.SagaCommitIdGenerationStrategy;
 /**
  *
  */
-public class EventIdCommitIdGenerator implements SagaCommitIdGenerationStrategy<Event> {
+public class EventIdCommitIdGenerator<S extends Saga<Event>>
+        implements SagaCommitIdGenerationStrategy<S, Event> {
 
     @Override
-    public String generateCommitId(Saga<Event> saga, Event event) {
-        return String.format("%s:%s", saga.sagaId(), event.id().idString());
+    public String generateCommitId(S saga, Event event) {
+        return String.format("%s:%s:%s", saga.getClass().getCanonicalName(),
+                saga.sagaId(), event.id().toString());
     }
     
 }
