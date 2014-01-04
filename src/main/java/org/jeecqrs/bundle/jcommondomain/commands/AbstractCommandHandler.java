@@ -11,7 +11,7 @@ import org.jodah.typetools.TypeResolver;
  */
 public abstract class AbstractCommandHandler<C extends Command> implements AutoDiscoveredCommandHandler<C> {
 
-    private Class<C> commandClass;
+    private final Class<C> commandClass;
 
     public AbstractCommandHandler() {
         Class<?>[] typeArguments = TypeResolver.resolveRawArguments(AbstractCommandHandler.class, getClass());
