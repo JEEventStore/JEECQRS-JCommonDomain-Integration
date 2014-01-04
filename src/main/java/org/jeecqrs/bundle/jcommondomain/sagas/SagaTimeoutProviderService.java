@@ -23,7 +23,6 @@ package org.jeecqrs.bundle.jcommondomain.sagas;
 
 import javax.ejb.EJB;
 import org.jeecqrs.common.event.Event;
-import org.jeecqrs.common.sagas.SagaId;
 import org.jeecqrs.common.sagas.SagaTimeoutProvider;
 import org.jeecqrs.sagas.SagaTimeoutRequest;
 
@@ -37,11 +36,11 @@ public class SagaTimeoutProviderService implements SagaTimeoutProvider {
     private org.jeecqrs.sagas.SagaTracker<Event> sagaTrackerDelegate;
 
     @Override
-    public void requestTimeout(SagaId sagaId, Event event, long timeout) {
+    public void requestTimeout(String sagaId, Event event, long timeout) {
         String descr = String.format("%s in %d for saga %s",
-                event.getClass().getName(), timeout, sagaId.idString());
+                event.getClass().getName(), timeout, sagaId);
         SagaTimeoutRequest<Event> request = new SagaTimeoutRequest<>(
-                sagaId.idString(), timeout, descr, event);
+                sagaId, timeout, descr, event);
         sagaTrackerDelegate.requestTimeout(request);
     }
 
