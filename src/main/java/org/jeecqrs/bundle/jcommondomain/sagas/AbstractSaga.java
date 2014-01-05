@@ -21,23 +21,135 @@
 
 package org.jeecqrs.bundle.jcommondomain.sagas;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.ejb.EJB;
+import org.jeecqrs.common.commands.CommandBus;
 import org.jeecqrs.common.event.Event;
 import org.jeecqrs.common.sagas.AbstractEventSourcedSaga;
-import org.jeecqrs.common.sagas.SagaId;
+import org.jeecqrs.common.sagas.SagaTimeoutProvider;
+import org.jeecqrs.event.EventInterestBuilder;
 import org.jeecqrs.sagas.Saga;
+import org.jeecqrs.sagas.SagaCommitIdGenerationStrategy;
+import org.jeecqrs.sagas.SagaConfig;
+import org.jeecqrs.sagas.SagaFactory;
+import org.jeecqrs.sagas.SagaIdentificationStrategy;
+import org.jeecqrs.sagas.config.SagaConfigBuilder;
+import org.jeecqrs.sagas.config.autodiscover.SagaConfigProvider;
+import org.jeecqrs.sagas.registry.autodiscover.RegisterSaga;
+import org.jodah.typetools.TypeResolver;
 
 /**
  *
+ * @param <S>  the actual saga type
  */
-public abstract class AbstractSaga extends AbstractEventSourcedSaga implements Saga<Event> {
+public abstract class AbstractSaga<S extends Saga<Event>> extends AbstractEventSourcedSaga
+        implements Saga<Event>, RegisterSaga<S>, SagaConfigProvider<S, Event>  {
 
-    protected AbstractSaga(String sagaId) {
-        super(new SagaId(sagaId));
+    private String sagaId;
+
+    @EJB // only available upon registration of the saga in the system
+    private CommandBus commandBus;
+
+    @EJB // only available upon registration of the saga in the system
+    private SagaTimeoutProvider timeoutProvider;
+
+    private final List<SagaEventInterestEntry<? extends Event>> registeredEvents = new ArrayList<>();
+
+    /**
+     * Setup the saga instance.
+     * This function is supposed to call {@link #listenTo()} for all events
+     * that this saga shall listen to.
+     */
+    protected abstract void setupSaga();
+
+    /**
+     * Listen to events.
+     * Can only be called with static methods when the generic type
+     * is propagated to the {@link Sagaidentifier} (i.e., no dynamic generation).
+     * @param <T>
+     * @param idf 
+     */
+    protected final <T extends Event> void listenTo(SagaIdentifier<T> idf) {
+        if (idf == null)
+            throw new NullPointerException("SagaIdentifier must not be null");
+        Class<?>[] typeArguments = TypeResolver.resolveRawArguments(SagaIdentifier.class, idf.getClass());
+        Class<? extends Event> eventClass = (Class) typeArguments[0];
+        if (TypeResolver.Unknown.class.equals(eventClass)) {
+            throw new IllegalStateException("Event type parameter missing on "
+                    + SagaIdentifier.class.getSimpleName() + " for #listenTo() in class "
+                    + getClass().getName());
+        }
+        this.listenTo((Class) eventClass, idf);
+    }
+
+    protected final <T extends Event> void listenTo(final Class<T> eventClass, final SagaIdentifier<T> ssei) {
+        if (ssei == null)
+            throw new NullPointerException("SagaSingleEventInterest must not be null");
+        this.registeredEvents.add(new SagaEventInterestEntry<T>() {
+            @Override
+            public Class<T> eventClass() {
+                return eventClass;
+            }
+            @Override
+            public String sagaIdFor(T event) {
+                return ssei.sagaIdFor(event);
+            }
+        });
+    }
+
+    protected SagaFactory<S> sagaFactory() {
+        return new DefaultSagaFactory(this.getClass(), commandBus, timeoutProvider);
+    }
+
+    protected SagaCommitIdGenerationStrategy<S, Event> commitIdStrategy() {
+        return new EventIdCommitIdGenerator();
+    }
+
+    protected SagaIdentificationStrategy<S, Event> identificationStrategy() {
+        return buildIdentificationStrategy();
     }
 
     @Override
-    public String sagaId() {
-        return this.id().idString();
+    public final String sagaId() {
+        return this.sagaId;
+    }
+
+    @Override
+    public final String id() {
+        return this.sagaId();
+    }
+
+    public final void sagaId(String sagaId) {
+        this.sagaId = sagaId;
+    }
+    
+    @Override
+    public SagaConfig<S, Event> sagaConfig() {
+        setupSaga();
+        EventInterestBuilder<Event> eib = new EventInterestBuilder<>();
+        for (Class<? extends Event> cls : buildIdentificationStrategy().keySet())
+            eib.add(cls);
+        return new SagaConfigBuilder<S, Event>()
+                .setEventInterest(eib.build())
+                .setSagaIdentificationStrategy(this.identificationStrategy())
+                .setSagaCommitIdGenerationStrategy(this.commitIdStrategy())
+                .setSagaFactory(this.sagaFactory())
+                .build();
+    }
+
+    private MapSagaIdentificationStrategy<S> buildIdentificationStrategy() {
+        if (registeredEvents.isEmpty())
+            throw new IllegalStateException("No events / saga identifiers have been registered");
+        MapSagaIdentificationStrategy<S> msids = new MapSagaIdentificationStrategy<>();
+        for (SagaEventInterestEntry<? extends Event> idf: registeredEvents)
+            msids.put(idf.eventClass(), idf);
+        return msids;
+    }
+
+    @Override
+    public Class<S> sagaClass() {
+        return (Class<S>) getClass();
     }
 
 }
