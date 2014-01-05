@@ -1,5 +1,6 @@
-package org.jeecqrs.integration.jcommondomain.event;
+package org.jeecqrs.integration.jcommondomain.jeeventstore;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import javax.ejb.EJB;
 import javax.ejb.Lock;
@@ -22,7 +23,7 @@ public class EventDispatcher implements EventStoreCommitListener {
     @Lock(LockType.READ)
     public void receive(EventStoreCommitNotification notification) {
         ChangeSet changes = notification.changes();
-        Iterator<?> it = changes.events();
+        Iterator<Serializable> it = changes.events();
         while (it.hasNext())
             eventBus.dispatch((Event) it.next());
     }

@@ -1,11 +1,11 @@
-package org.jeecqrs.integration.jcommondomain.persistence.jeeventstore;
+package org.jeecqrs.integration.jcommondomain.jeeventstore;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import org.jeecqrs.common.event.Event;
 import org.jeecqrs.event.EventBus;
-import org.jeecqrs.integration.jcommondomain.event.EventDispatcher;
 import org.jeeventstore.ConcurrencyException;
 import org.jeeventstore.DuplicateCommitException;
 import org.jeeventstore.EventStore;
@@ -28,16 +28,15 @@ public class SagaTrackerPersistingEventBusService implements EventBus<Event> {
     @EJB(name="eventStore")
     private EventStore eventStore;
 
-    @EJB(name="bucketIdProvider")
-    private BucketIdProvider bucketIdProvider;
+    @Resource(name="sagaTimeoutEventBucketId")
+    private String sagaTimeoutEventBucketId = DefaultBucketIds.SAGA_TIMEOUT_EVENTS;
 
     @Override
     public void dispatch(Event event) {
         log.fine("Dispatch event #" + event.id() + ", " + event);
         String eventId = event.id().toString();
         String streamId = String.format("%s:%s", event.getClass().getCanonicalName(), eventId);
-        String bucketId = bucketIdProvider.eventBucketId();
-        WritableEventStream stream = eventStore.createStream(bucketId, streamId);
+        WritableEventStream stream = eventStore.createStream(sagaTimeoutEventBucketId, streamId);
         stream.append(event);
         try {
             stream.commit(streamId);

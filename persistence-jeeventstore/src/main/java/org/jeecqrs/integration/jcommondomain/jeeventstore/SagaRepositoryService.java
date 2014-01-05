@@ -1,5 +1,6 @@
-package org.jeecqrs.integration.jcommondomain.persistence.jeeventstore;
+package org.jeecqrs.integration.jcommondomain.jeeventstore;
 
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import org.jeecqrs.common.commands.CommandBus;
 import org.jeecqrs.common.event.Event;
@@ -25,8 +26,8 @@ public class SagaRepositoryService extends AbstractJEEventStoreSagaRepository<Ab
     @EJB(name="sagaTimeoutProvider")
     private SagaTimeoutProvider timeoutProvider;
 
-    @EJB(name="bucketIdProvider")
-    private BucketIdProvider bucketIdProvider;
+    @Resource(name="sagaBucketId")
+    private String sagaBucketId = DefaultBucketIds.SAGAS;
 
     @Override
     protected EventStore eventStore() {
@@ -35,7 +36,7 @@ public class SagaRepositoryService extends AbstractJEEventStoreSagaRepository<Ab
 
     @Override
     protected String bucketId() {
-        return bucketIdProvider.sagaBucketId();
+        return sagaBucketId;
     }
 
     @Override

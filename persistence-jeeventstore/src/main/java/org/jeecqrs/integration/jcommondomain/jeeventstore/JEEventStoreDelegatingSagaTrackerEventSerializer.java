@@ -1,4 +1,4 @@
-package org.jeecqrs.integration.jcommondomain.sagas;
+package org.jeecqrs.integration.jcommondomain.jeeventstore;
 
 import java.util.ArrayList;
 import java.util.List;

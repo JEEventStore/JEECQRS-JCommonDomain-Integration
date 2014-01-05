@@ -1,4 +1,4 @@
-package org.jeecqrs.integration.jcommondomain.persistence.jeeventstore;
+package org.jeecqrs.integration.jcommondomain.jeeventstore;
 
 import org.jeecqrs.common.AbstractId;
 

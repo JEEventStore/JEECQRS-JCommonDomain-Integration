@@ -1,4 +1,4 @@
-package org.jeecqrs.integration.jcommondomain.event;
+package org.jeecqrs.integration.jcommondomain.jeeventstore;
 
 import java.io.Serializable;
 import java.util.Iterator;
