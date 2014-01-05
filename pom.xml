@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.jeecqrs</groupId>
-    <artifactId>jeecqrs-jcommondomain-integration-parent</artifactId>
+    <artifactId>jeecqrs-jcommondomain-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <packaging>pom</packaging>
@@ -13,6 +13,7 @@
     <modules>
         <module>core</module>
         <module>persistence-jeeventstore</module>
+        <module>persistence-jeeventstore-ejb</module>
     </modules>
 
     <properties>
@@ -20,6 +21,7 @@
         <maven.compiler.target>1.7</maven.compiler.target>
         <maven.compiler.source>1.7</maven.compiler.source>
         <version.compiler.plugin>2.3.2</version.compiler.plugin>
+        <version.ejb.plugin>2.3</version.ejb.plugin>
 
         <version.jeeventstore>1.0-SNAPSHOT</version.jeeventstore>
         <version.jeecqrs>1.0-SNAPSHOT</version.jeecqrs>
@@ -52,7 +54,7 @@
 
             <dependency>
                 <groupId>org.jeecqrs</groupId>
-                <artifactId>jeecqrs-jcommondomain-integration-core</artifactId>
+                <artifactId>jeecqrs-jcommondomain-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             
