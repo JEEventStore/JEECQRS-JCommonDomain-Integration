@@ -56,6 +56,8 @@ public class ApplicationStartup extends AbstractApplicationStartup {
                 commitNotifier.addListener(rbi.bucketId(), eventDispatcher);
             }
         }
+        log.info("Register dispatch for saga timeout events in bucket " + sagaTimeoutEventBucketId);
+        commitNotifier.addListener(sagaTimeoutEventBucketId, eventDispatcher);
     }
 
     @Override
@@ -70,11 +72,11 @@ public class ApplicationStartup extends AbstractApplicationStartup {
         while (it.hasNext()) {
             RegisterBucketId rbi = it.next();
             if (rbi.autoReplay()) {
-                log.info("Starting event replay for events in bucketId " + rbi.bucketId());
+                log.info("Starting event replay for events in bucket " + rbi.bucketId());
                 replayer.replay(rbi.bucketId());
             }
         }
-        log.info("Starting event replay for saga timeout events in bucketId " + sagaTimeoutEventBucketId);
+        log.info("Starting event replay for saga timeout events in bucket " + sagaTimeoutEventBucketId);
         replayer.replay(sagaTimeoutEventBucketId);
         log.info("Event replay done");
     }
