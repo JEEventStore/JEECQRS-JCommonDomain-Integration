@@ -22,36 +22,45 @@
 package org.jeecqrs.bundle.jcommondomain.sagas;
 
 import org.jeecqrs.common.commands.CommandBus;
-import org.jeecqrs.common.event.Event;
 import org.jeecqrs.common.sagas.SagaTimeoutProvider;
-import org.jeecqrs.sagas.Saga;
 import org.jeecqrs.sagas.SagaFactory;
 
 /**
- *
+ * 
+ * @param <S>
  */
-public class DefaultSagaFactory implements SagaFactory<Event> {
+public class DefaultSagaFactory<S extends AbstractSaga<S>> implements SagaFactory<S> {
 
-    private final Class<? extends AbstractSaga> sagaClass;
+    private final Class<S> sagaClass;
     private final CommandBus commandBus;
     private final SagaTimeoutProvider timeoutProvider;
 
     public DefaultSagaFactory(
-            Class<? extends AbstractSaga> sagaClass,
+            Class<S> sagaClass,
             CommandBus commandBus,
             SagaTimeoutProvider timeoutProvider) {
-
         this.sagaClass = sagaClass;
         this.commandBus = commandBus;
         this.timeoutProvider = timeoutProvider;
     }
 
     @Override
-    public Saga<Event> createSaga(String sagaId) {
-        AbstractSaga saga = SagaUtil.createInstance(sagaClass, sagaId);
+    public S createSaga(String sagaId) {
+        S saga = createNewInstance();
+        saga.sagaId(sagaId);
         saga.setCommandBus(commandBus);
         saga.setTimeoutProvider(timeoutProvider);
         return saga;
+    }
+
+    protected S createNewInstance() {
+        try {
+            return sagaClass.newInstance();
+	} catch (InstantiationException | IllegalAccessException |
+                IllegalArgumentException e) {
+	    throw new RuntimeException("Cannot instantiate object of type " 
+                    + sagaClass + ": " + e.getMessage(), e);
+	}
     }
 
 }
