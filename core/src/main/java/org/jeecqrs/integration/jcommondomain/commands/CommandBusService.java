@@ -19,22 +19,24 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.jeecqrs.bundle.jcommondomain.sagas;
+package org.jeecqrs.integration.jcommondomain.commands;
 
-import org.jeecqrs.common.event.Event;
-import org.jeecqrs.sagas.Saga;
-import org.jeecqrs.sagas.SagaCommitIdGenerationStrategy;
+import javax.ejb.EJB;
+import org.jeecqrs.common.commands.Command;
+import org.jeecqrs.common.commands.CommandBus;
 
 /**
- *
+ * Command bus service.
+ * Deploy as stateless bean.
  */
-public class EventIdCommitIdGenerator<S extends Saga<Event>>
-        implements SagaCommitIdGenerationStrategy<S, Event> {
+public class CommandBusService implements CommandBus {
+
+    @EJB(name="commandBusDelegate")
+    private org.jeecqrs.command.CommandBus<Command> commandBusDelegate;
 
     @Override
-    public String generateCommitId(S saga, Event event) {
-        return String.format("%s:%s:%s", saga.getClass().getCanonicalName(),
-                saga.sagaId(), event.id().toString());
+    public void send(Command command) {
+        commandBusDelegate.send(command);
     }
     
 }

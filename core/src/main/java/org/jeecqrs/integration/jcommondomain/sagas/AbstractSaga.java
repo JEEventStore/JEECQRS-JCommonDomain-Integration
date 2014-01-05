@@ -19,7 +19,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.jeecqrs.bundle.jcommondomain.sagas;
+package org.jeecqrs.integration.jcommondomain.sagas;
 
 import java.util.ArrayList;
 import java.util.List;

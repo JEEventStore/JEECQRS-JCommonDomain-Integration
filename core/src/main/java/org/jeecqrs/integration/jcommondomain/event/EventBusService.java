@@ -19,7 +19,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.jeecqrs.bundle.jcommondomain.event;
+package org.jeecqrs.integration.jcommondomain.event;
 
 import javax.ejb.EJB;
 import org.jeecqrs.common.event.Event;

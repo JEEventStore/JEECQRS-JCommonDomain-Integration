@@ -19,24 +19,48 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.jeecqrs.bundle.jcommondomain.commands;
+package org.jeecqrs.integration.jcommondomain.sagas;
 
-import javax.ejb.EJB;
-import org.jeecqrs.common.commands.Command;
 import org.jeecqrs.common.commands.CommandBus;
+import org.jeecqrs.common.sagas.SagaTimeoutProvider;
+import org.jeecqrs.sagas.SagaFactory;
 
 /**
- * Command bus service.
- * Deploy as stateless bean.
+ * 
+ * @param <S>
  */
-public class CommandBusService implements CommandBus {
+public class DefaultSagaFactory<S extends AbstractSaga<S>> implements SagaFactory<S> {
 
-    @EJB(name="commandBusDelegate")
-    private org.jeecqrs.command.CommandBus<Command> commandBusDelegate;
+    private final Class<S> sagaClass;
+    private final CommandBus commandBus;
+    private final SagaTimeoutProvider timeoutProvider;
+
+    public DefaultSagaFactory(
+            Class<S> sagaClass,
+            CommandBus commandBus,
+            SagaTimeoutProvider timeoutProvider) {
+        this.sagaClass = sagaClass;
+        this.commandBus = commandBus;
+        this.timeoutProvider = timeoutProvider;
+    }
 
     @Override
-    public void send(Command command) {
-        commandBusDelegate.send(command);
+    public S createSaga(String sagaId) {
+        S saga = createNewInstance();
+        saga.sagaId(sagaId);
+        saga.setCommandBus(commandBus);
+        saga.setTimeoutProvider(timeoutProvider);
+        return saga;
     }
-    
+
+    protected S createNewInstance() {
+        try {
+            return sagaClass.newInstance();
+	} catch (InstantiationException | IllegalAccessException |
+                IllegalArgumentException e) {
+	    throw new RuntimeException("Cannot instantiate object of type " 
+                    + sagaClass + ": " + e.getMessage(), e);
+	}
+    }
+
 }

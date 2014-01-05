@@ -19,25 +19,22 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.jeecqrs.bundle.jcommondomain.sagas;
+package org.jeecqrs.integration.jcommondomain.sagas;
 
-import java.util.Map;
 import org.jeecqrs.common.event.Event;
 import org.jeecqrs.sagas.Saga;
-import org.jeecqrs.sagas.SagaIdentificationStrategy;
+import org.jeecqrs.sagas.SagaCommitIdGenerationStrategy;
 
 /**
- * A simple saga identification strategy that simply maps a saga to
- * the id of an incomiong event.
- * This obviously means that the corresponding saga may only handle exactly
- * on event.
+ *
  */
-public class EventIdSagaIdentificationStrategy<S extends Saga<Event>>
-    implements SagaIdentificationStrategy<S, Event> {
+public class EventIdCommitIdGenerator<S extends Saga<Event>>
+        implements SagaCommitIdGenerationStrategy<S, Event> {
 
     @Override
-    public String identifySaga(Event event) {
-        return event.id().toString();
+    public String generateCommitId(S saga, Event event) {
+        return String.format("%s:%s:%s", saga.getClass().getCanonicalName(),
+                saga.sagaId(), event.id().toString());
     }
     
 }

@@ -19,40 +19,29 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.jeecqrs.bundle.jcommondomain.sagas;
+package org.jeecqrs.integration.jcommondomain.sagas;
 
+import javax.ejb.EJB;
 import org.jeecqrs.common.event.Event;
-import org.jeecqrs.common.event.routing.EventRouter;
-import org.jeecqrs.common.event.routing.convention.ConventionEventRouter;
-import org.jeecqrs.common.util.Validate;
-import org.jeecqrs.sagas.Saga;
-import org.jeecqrs.sagas.SagaIdentificationStrategy;
+import org.jeecqrs.common.sagas.SagaTimeoutProvider;
+import org.jeecqrs.sagas.SagaTimeoutRequest;
 
 /**
- *
+ * Saga Timeout provider service.
+ * Deploy as stateless bean.
  */
-public abstract class EventRoutingSagaIdentificationStrategy<S extends Saga<Event>>
-    implements SagaIdentificationStrategy<S, Event> {
-    
-    private static final String EVENT_HANDLER_NAME = "when";
-    
-    private final EventRouter<String, Event> eventRouter;
+public class SagaTimeoutProviderService implements SagaTimeoutProvider {
 
-    protected EventRoutingSagaIdentificationStrategy() {
-        this(new ConventionEventRouter<String, Event>(true, EVENT_HANDLER_NAME));
-    }
-
-    @SuppressWarnings("LeakingThisInConstructor")
-    protected EventRoutingSagaIdentificationStrategy(
-            EventRouter<String, Event> eventRouter) {
-        Validate.notNull(eventRouter, "eventRouter must not be null");
-        this.eventRouter = eventRouter;
-        eventRouter.register(this);
-    }
+    @EJB(name="sagaTrackerDelegate")
+    private org.jeecqrs.sagas.SagaTracker<Event> sagaTrackerDelegate;
 
     @Override
-    public String identifySaga(Event event) {
-        return eventRouter.routeEvent(event);
+    public void requestTimeout(String sagaId, Event event, long timeout) {
+        String descr = String.format("%s in %d for saga %s",
+                event.getClass().getName(), timeout, sagaId);
+        SagaTimeoutRequest<Event> request = new SagaTimeoutRequest<>(
+                sagaId, timeout, descr, event);
+        sagaTrackerDelegate.requestTimeout(request);
     }
 
 }

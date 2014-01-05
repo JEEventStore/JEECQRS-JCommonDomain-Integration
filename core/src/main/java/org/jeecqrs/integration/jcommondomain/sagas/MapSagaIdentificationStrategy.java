@@ -1,4 +1,4 @@
-package org.jeecqrs.bundle.jcommondomain.sagas;
+package org.jeecqrs.integration.jcommondomain.sagas;
 
 import java.util.Collection;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package org.jeecqrs.bundle.jcommondomain.commands;
+package org.jeecqrs.integration.jcommondomain.commands;
 
 import org.jeecqrs.command.registry.autodiscover.AutoDiscoveredCommandHandler;
 import org.jeecqrs.common.commands.Command;

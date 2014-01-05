@@ -1,51 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.jeecqrs.bundle</groupId>
-    <artifactId>jeecqrs-jcommondomain-integration</artifactId>
+    <groupId>org.jeecqrs</groupId>
+    <artifactId>jeecqrs-jcommondomain-integration-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
 
-    <name>JEECQRS JCommonDomain Integration Bundle</name>
+    <packaging>pom</packaging>
 
-    <description>
-        A library of services and classes that integrates JEECQRS and JCommonDomain.
-    </description>
+    <name>JEECQRS JCommonDomain Integration: Parent</name>
+
+    <modules>
+        <module>core</module>
+        <module>persistence-jeeventstore</module>
+    </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>1.7</maven.compiler.source>
         <version.compiler.plugin>2.3.2</version.compiler.plugin>
-        <version.ejb.plugin>2.3</version.ejb.plugin>
 
         <version.jeeventstore>1.0-SNAPSHOT</version.jeeventstore>
         <version.jeecqrs>1.0-SNAPSHOT</version.jeecqrs>
         <version.jcommondomain>1.0-SNAPSHOT</version.jcommondomain>
+
+        <!-- Tests -->
+        <version.testng>6.8</version.testng>
     </properties>
-    
+
     <dependencies>
-
-        <dependency>
-            <groupId>org.jeecqrs</groupId>
-            <artifactId>jeecqrs-core</artifactId>
-            <version>${version.jeecqrs}</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.jeecqrs</groupId>
-            <artifactId>jcommondomain-core</artifactId>
-            <version>${version.jcommondomain}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jodah</groupId>
-            <artifactId>typetools</artifactId>
-            <version>0.3.0</version>
-        </dependency>
 
         <dependency>
             <groupId>javax</groupId>
@@ -53,33 +37,67 @@
             <version>6.0</version>
             <scope>provided</scope>
         </dependency>
-        
+
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${version.testng}</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
+    <dependencyManagement>
+        <dependencies>
+
+            <dependency>
+                <groupId>org.jeecqrs</groupId>
+                <artifactId>jeecqrs-jcommondomain-integration-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>org.jeecqrs</groupId>
+                <artifactId>jeecqrs-core</artifactId>
+                <version>${version.jeecqrs}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jeecqrs</groupId>
+                <artifactId>jcommondomain-core</artifactId>
+                <version>${version.jcommondomain}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jeeventstore</groupId>
+                <artifactId>jeeventstore-core</artifactId>
+                <version>${version.jeeventstore}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jeecqrs</groupId>
+                <artifactId>jcommondomain-persistence-jeeventstore</artifactId>
+                <version>${version.jcommondomain}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
     <build>
-        <plugins>
+        <pluginManagement>
+            <plugins>
 
-            <!-- Configure the maven-ejb-plugin to use EJB 3.1 -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-ejb-plugin</artifactId>
-                <version>${version.ejb.plugin}</version>
-                <configuration>
-                    <ejbVersion>3.1</ejbVersion>
-                </configuration>
-            </plugin>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${version.compiler.plugin}</version>
+                    <configuration>
+                        <source>${maven.compiler.source}</source>
+                        <target>${maven.compiler.target}</target>
+                    </configuration>
+                </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${version.compiler.plugin}</version>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
-                </configuration>
-            </plugin>
-
-        </plugins>
+            </plugins>
+        </pluginManagement>
     </build>
 
 </project>
