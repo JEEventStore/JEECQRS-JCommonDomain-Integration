@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 import javax.ejb.EJB;
 import org.jeecqrs.common.commands.CommandBus;
 import org.jeecqrs.common.event.Event;
+import org.jeecqrs.common.persistence.es.EventStreamNameGenerator;
 import org.jeecqrs.common.persistence.jeeventstore.AbstractJEEventStoreSagaRepository;
 import org.jeecqrs.common.sagas.SagaTimeoutProvider;
 import org.jeecqrs.integration.jcommondomain.sagas.AbstractSaga;
@@ -14,7 +15,7 @@ import org.jeeventstore.EventStore;
 /**
  *
  */
-public class SagaRepositoryService extends AbstractJEEventStoreSagaRepository<AbstractSaga<?>> 
+public class SagaRepositoryService extends AbstractJEEventStoreSagaRepository<AbstractSaga<?>, String> 
     implements SagaRepository<Event> {
 
     @EJB(name="eventStore")
@@ -55,16 +56,14 @@ public class SagaRepositoryService extends AbstractJEEventStoreSagaRepository<Ab
     public <T extends Saga<Event>> void add(T saga, String commitId) {
         if (!AbstractSaga.class.isAssignableFrom(saga.getClass()))
             throw new UnsupportedOperationException("Unsupported saga type: " + saga.getClass());
-        SagaCommitId scid = new SagaCommitId(commitId);
-        super.add((AbstractSaga) saga, scid);
+        super.add((AbstractSaga) saga, commitId);
     }
 
     @Override
     public <T extends Saga<Event>> void save(T saga, String commitId) {
         if (!AbstractSaga.class.isAssignableFrom(saga.getClass()))
             throw new UnsupportedOperationException("Unsupported saga type: " + saga.getClass());
-        SagaCommitId scid = new SagaCommitId(commitId);
-        super.save((AbstractSaga) saga, scid);
+        super.save((AbstractSaga) saga, commitId);
     }
 
     protected void injectDependencies(AbstractSaga<?> saga) {
