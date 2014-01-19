@@ -79,6 +79,18 @@
         </session>
 
         <session>
+            <ejb-name>JEECQRSReliableCommandBus</ejb-name>
+            <business-local>org.jeecqrs.command.ReliableCommandBus</business-local>
+            <ejb-class>org.jeecqrs.command.bus.simple.SimpleSyncCommandBus</ejb-class>
+            <session-type>Stateless</session-type>
+            <ejb-local-ref>
+                <ejb-ref-name>commandHandlerRegistry</ejb-ref-name>
+                <local>org.jeecqrs.command.CommandHandlerRegistry</local>
+                <ejb-link>CommandHandlerRegistry</ejb-link>
+            </ejb-local-ref>
+        </session>
+
+        <session>
             <ejb-name>CommandHandlerRegistry</ejb-name>
             <business-local>org.jeecqrs.command.CommandHandlerRegistry</business-local>
             <ejb-class>org.jeecqrs.command.registry.autodiscover.AutoDiscoverCommandHandlerRegistry</ejb-class>
@@ -131,6 +143,23 @@
             </ejb-local-ref>
         </session> 
 
+        <session>
+            <ejb-name>SagaCommandBus</ejb-name>
+            <business-local>org.jeecqrs.common.sagas.SagaCommandBus</business-local>
+            <ejb-class>org.jeecqrs.integration.jcommondomain.sagas.SagaCommandBusService</ejb-class>
+            <session-type>Stateless</session-type>
+            <ejb-local-ref>
+                <ejb-ref-name>commandBusDelegate</ejb-ref-name>
+                <local>org.jeecqrs.command.CommandBus</local>
+                <ejb-link>JEECQRSCommandBus</ejb-link>
+            </ejb-local-ref>
+            <ejb-local-ref>
+                <ejb-ref-name>reliableCommandBusDelegate</ejb-ref-name>
+                <local>org.jeecqrs.command.ReliableCommandBus</local>
+                <ejb-link>JEECQRSReliableCommandBus</ejb-link>
+            </ejb-local-ref>
+        </session> 
+
         <!-- JCommonDomain EventBus, delegates to JEECQRS' EventBus -->
 
         <session>
@@ -152,6 +181,11 @@
             <business-local>org.jeecqrs.sagas.SagaRepository</business-local>
             <ejb-class>org.jeecqrs.integration.jcommondomain.jeeventstore.SagaRepositoryService</ejb-class>
             <session-type>Stateless</session-type>
+            <ejb-local-ref>
+                <ejb-ref-name>commandBus</ejb-ref-name>
+                <local>org.jeecqrs.common.sagas.SagaCommandBus</local>
+                <ejb-link>SagaCommandBus</ejb-link>
+            </ejb-local-ref>
         </session>  
 
         <session>

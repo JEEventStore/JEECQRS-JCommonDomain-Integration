@@ -22,6 +22,7 @@
 package org.jeecqrs.integration.jcommondomain.sagas;
 
 import org.jeecqrs.common.commands.CommandBus;
+import org.jeecqrs.common.sagas.SagaCommandBus;
 import org.jeecqrs.common.sagas.SagaTimeoutProvider;
 import org.jeecqrs.sagas.SagaFactory;
 
@@ -32,12 +33,12 @@ import org.jeecqrs.sagas.SagaFactory;
 public class DefaultSagaFactory<S extends AbstractSaga<S>> implements SagaFactory<S> {
 
     private final Class<S> sagaClass;
-    private final CommandBus commandBus;
+    private final SagaCommandBus commandBus;
     private final SagaTimeoutProvider timeoutProvider;
 
     public DefaultSagaFactory(
             Class<S> sagaClass,
-            CommandBus commandBus,
+            SagaCommandBus commandBus,
             SagaTimeoutProvider timeoutProvider) {
         this.sagaClass = sagaClass;
         this.commandBus = commandBus;

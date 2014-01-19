@@ -2,10 +2,9 @@ package org.jeecqrs.integration.jcommondomain.jeeventstore;
 
 import javax.annotation.Resource;
 import javax.ejb.EJB;
-import org.jeecqrs.common.commands.CommandBus;
 import org.jeecqrs.common.event.Event;
-import org.jeecqrs.common.persistence.es.EventStreamNameGenerator;
 import org.jeecqrs.common.persistence.jeeventstore.AbstractJEEventStoreSagaRepository;
+import org.jeecqrs.common.sagas.SagaCommandBus;
 import org.jeecqrs.common.sagas.SagaTimeoutProvider;
 import org.jeecqrs.integration.jcommondomain.sagas.AbstractSaga;
 import org.jeecqrs.sagas.Saga;
@@ -21,8 +20,8 @@ public class SagaRepositoryService extends AbstractJEEventStoreSagaRepository<Ab
     @EJB(name="eventStore")
     private EventStore eventStore;
 
-    @EJB(name="commandBus")
-    private CommandBus commandBus;
+    @EJB(name="sagaCommandBus")
+    private SagaCommandBus commandBus;
 
     @EJB(name="sagaTimeoutProvider")
     private SagaTimeoutProvider timeoutProvider;

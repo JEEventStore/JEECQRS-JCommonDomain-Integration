@@ -27,6 +27,7 @@ import javax.ejb.EJB;
 import org.jeecqrs.common.commands.CommandBus;
 import org.jeecqrs.common.event.Event;
 import org.jeecqrs.common.sagas.AbstractEventSourcedSaga;
+import org.jeecqrs.common.sagas.SagaCommandBus;
 import org.jeecqrs.common.sagas.SagaTimeoutProvider;
 import org.jeecqrs.event.EventInterestBuilder;
 import org.jeecqrs.sagas.Saga;
@@ -49,7 +50,7 @@ public abstract class AbstractSaga<S extends Saga<Event>> extends AbstractEventS
     private String sagaId;
 
     @EJB // only available upon registration of the saga in the system
-    private CommandBus commandBus;
+    private SagaCommandBus commandBus;
 
     @EJB // only available upon registration of the saga in the system
     private SagaTimeoutProvider timeoutProvider;
