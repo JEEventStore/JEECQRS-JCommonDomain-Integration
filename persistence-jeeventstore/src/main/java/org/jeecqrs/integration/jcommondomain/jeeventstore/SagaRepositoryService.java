@@ -11,9 +11,6 @@ import org.jeecqrs.sagas.Saga;
 import org.jeecqrs.sagas.SagaRepository;
 import org.jeeventstore.EventStore;
 
-/**
- *
- */
 public class SagaRepositoryService extends AbstractJEEventStoreSagaRepository<AbstractSaga<?>, String> 
     implements SagaRepository<Event> {
 
@@ -37,6 +34,13 @@ public class SagaRepositoryService extends AbstractJEEventStoreSagaRepository<Ab
     @Override
     protected String bucketId() {
         return sagaBucketId;
+    }
+
+    @Override
+    protected AbstractSaga<?> createFreshInstance(Class<AbstractSaga<?>> clazz, String id) {
+        AbstractSaga<?> instance = super.createFreshInstance(clazz, id);
+        instance.sagaId(id);
+        return instance;
     }
 
     @Override
