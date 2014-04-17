@@ -164,7 +164,7 @@
 
         <session>
             <ejb-name>CommandLogger</ejb-name>
-            <business-local>org.jeecqrs.command.log.CommandLogger</business-local>
+            <business-local>org.jeecqrs.command.CommandLogger</business-local>
             <ejb-class>org.jeecqrs.integration.jcommondomain.jeeventstore.CommandLoggerService</ejb-class>
             <session-type>Stateless</session-type>
             <ejb-local-ref>
