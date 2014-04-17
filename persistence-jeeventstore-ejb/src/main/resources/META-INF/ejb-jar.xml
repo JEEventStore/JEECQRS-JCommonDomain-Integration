@@ -160,6 +160,21 @@
             </ejb-local-ref>
         </session> 
 
+        <!-- JEECCQRS Command Logger, persists to JEventStore -->
+
+        <session>
+            <ejb-name>CommandLogger</ejb-name>
+            <business-local>org.jeecqrs.command.log.CommandLogger</business-local>
+            <ejb-class>org.jeecqrs.integration.jcommondomain.jeeventstore.CommandLoggerService</ejb-class>
+            <session-type>Stateless</session-type>
+            <ejb-local-ref>
+                <ejb-ref-name>eventStore</ejb-ref-name>
+                <local>org.jeeventstore.EventStore</local>
+                <ejb-link>EventStore</ejb-link>
+            </ejb-local-ref>
+        </session>  
+
+
         <!-- JCommonDomain EventBus, delegates to JEECQRS' EventBus -->
 
         <session>
