@@ -35,16 +35,6 @@
                 <local>org.jeeventstore.EventSerializer</local>
                 <ejb-link>EventSerializer</ejb-link>
             </ejb-local-ref>
-            <!--persistence-context-ref>
-                <persistence-context-ref-name>entityManager</persistence-context-ref-name>
-                <persistence-unit-name>JEECQRSServicesPU</persistence-unit-name>
-                <injection-target>
-                    <injection-target-class>
-                        org.jeeventstore.persistence.jpa.EventStorePersistenceJPA
-                    </injection-target-class>
-                    <injection-target-name>entityManager</injection-target-name>
-                </injection-target>
-            </persistence-context-ref-->
         </session>
 
         <session>
@@ -299,16 +289,6 @@
                 <local>org.jeecqrs.event.EventBus</local>
                 <ejb-link>SagaTrackerEventBus</ejb-link>
             </ejb-local-ref>
-            <!--persistence-context-ref>
-                <persistence-context-ref-name>entityManager</persistence-context-ref-name>
-                <persistence-unit-name>JEECQRSServicesPU</persistence-unit-name>
-                <injection-target>
-                    <injection-target-class>
-                        org.jeecqrs.sagas.tracker.jpa.JPASagaTracker
-                    </injection-target-class>
-                    <injection-target-name>entityManager</injection-target-name>
-                </injection-target>
-            </persistence-context-ref-->
         </session> 
         
         <!-- JCommonDomain SagaTimeoutProvider, delegates to JEECQRS' SagaTracker -->
