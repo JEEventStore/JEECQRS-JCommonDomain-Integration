@@ -18,6 +18,11 @@
     <description>
         A library of services and classes that integrates JEECQRS and JCommonDomain with
         JEEventstore as persistence mechanism.
+
+        This library is left independent of a choice of underlying persistence or serialization
+        technology within JEventStore, i.e., one includes this module as library
+        and adds the desired persistence (e.g., JPA) and serialization (e.g., GSON) 
+        implementations as needed.
     </description>
 
     <dependencies>
