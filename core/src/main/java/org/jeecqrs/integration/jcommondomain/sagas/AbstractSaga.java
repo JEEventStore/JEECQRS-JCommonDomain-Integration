@@ -24,7 +24,6 @@ package org.jeecqrs.integration.jcommondomain.sagas;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
-import org.jeecqrs.common.commands.CommandBus;
 import org.jeecqrs.common.event.Event;
 import org.jeecqrs.common.sagas.AbstractEventSourcedSaga;
 import org.jeecqrs.common.sagas.SagaCommandBus;
