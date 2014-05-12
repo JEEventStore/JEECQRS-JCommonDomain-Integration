@@ -8,3 +8,5 @@
 /persistence-jeeventstore/target/
 /core/target/
 /persistence-jeeventstore-ejb/target/
+/persistence-jeeventstore-infra-jpa/target/
+/persistence-jeeventstore-infra-gson/target/

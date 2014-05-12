@@ -7,53 +7,6 @@
 
     <enterprise-beans>    
 
-        <!-- JEEventStore -->
-
-        <session>
-            <ejb-name>EventStoreCommitNotifier</ejb-name>
-            <business-local>org.jeeventstore.EventStoreCommitNotifier</business-local>
-            <ejb-class>org.jeeventstore.notifier.AsyncEventStoreCommitNotifier</ejb-class>
-            <session-type>Singleton</session-type>
-            <init-on-startup>true</init-on-startup>
-        </session>  
-
-        <session>
-            <ejb-name>EventSerializer</ejb-name>
-            <business-local>org.jeeventstore.EventSerializer</business-local>
-            <ejb-class>org.jeeventstore.serialization.gson.EventSerializerGson</ejb-class>
-            <session-type>Singleton</session-type>
-            <init-on-startup>true</init-on-startup>
-        </session>
-
-        <session>
-            <ejb-name>EventStorePersistence</ejb-name>
-            <business-local>org.jeeventstore.EventStorePersistence</business-local>
-            <ejb-class>org.jeeventstore.persistence.jpa.EventStorePersistenceJPA</ejb-class>
-            <session-type>Stateless</session-type>
-            <ejb-local-ref>
-                <ejb-ref-name>serializer</ejb-ref-name>
-                <local>org.jeeventstore.EventSerializer</local>
-                <ejb-link>EventSerializer</ejb-link>
-            </ejb-local-ref>
-        </session>
-
-        <session>
-            <ejb-name>EventStore</ejb-name>
-            <business-local>org.jeeventstore.EventStore</business-local>
-            <ejb-class>org.jeeventstore.store.OptimisticEventStoreService</ejb-class>
-            <session-type>Stateless</session-type>
-            <ejb-local-ref>
-                <ejb-ref-name>persistence</ejb-ref-name>
-                <local>org.jeeventstore.EventStorePersistence</local>
-                <ejb-link>EventStorePersistence</ejb-link>
-            </ejb-local-ref>
-            <ejb-local-ref>
-                <ejb-ref-name>commitNotifier</ejb-ref-name>
-                <local>org.jeeventstore.EventStoreCommitNotifier</local>
-                <ejb-link>EventStoreCommitNotifier</ejb-link>
-            </ejb-local-ref>
-        </session>
-
         <!-- JEECQRS Command bus, used as command bus implementation -->
         
         <session>
@@ -164,7 +117,6 @@
             </ejb-local-ref>
         </session>  
 
-
         <!-- JCommonDomain EventBus, delegates to JEECQRS' EventBus -->
 
         <session>
@@ -253,8 +205,8 @@
             <session-type>Stateless</session-type>
             <ejb-local-ref>
                 <ejb-ref-name>eventSerializerDelegate</ejb-ref-name>
+                <ejb-ref-type>Session</ejb-ref-type>
                 <local>org.jeeventstore.EventSerializer</local>
-                <ejb-link>EventSerializer</ejb-link>
             </ejb-local-ref>
         </session> 
 
@@ -264,7 +216,7 @@
 
         <session>
             <ejb-name>SagaTrackerEventBus</ejb-name>
-            <business-local>org.jeecqrs.event.EventBus</business-local>
+            <business-local>org.jeecqrs.sagas.tracker.SagaTrackerEventBus</business-local>
             <ejb-class>org.jeecqrs.integration.jcommondomain.jeeventstore.SagaTrackerPersistingEventBusService</ejb-class>
             <session-type>Stateless</session-type>
             <ejb-local-ref>
@@ -274,23 +226,6 @@
             </ejb-local-ref>
         </session>  
 
-        <session>
-            <ejb-name>SagaTracker</ejb-name>
-            <business-local>org.jeecqrs.sagas.SagaTracker</business-local>
-            <ejb-class>org.jeecqrs.sagas.tracker.jpa.JPASagaTracker</ejb-class>
-            <session-type>Singleton</session-type>
-            <ejb-local-ref>
-                <ejb-ref-name>eventSerializer</ejb-ref-name>
-                <local>org.jeecqrs.sagas.tracker.SagaTrackerEventSerializer</local>
-                <ejb-link>SagaEventSerializer</ejb-link>
-            </ejb-local-ref>
-            <ejb-local-ref>
-                <ejb-ref-name>eventBus</ejb-ref-name>
-                <local>org.jeecqrs.event.EventBus</local>
-                <ejb-link>SagaTrackerEventBus</ejb-link>
-            </ejb-local-ref>
-        </session> 
-        
         <!-- JCommonDomain SagaTimeoutProvider, delegates to JEECQRS' SagaTracker -->
 
         <session>
@@ -300,8 +235,8 @@
             <session-type>Stateless</session-type>
             <ejb-local-ref>
                 <ejb-ref-name>sagaTrackerDelegate</ejb-ref-name>
+                <ejb-ref-type>Session</ejb-ref-type>
                 <local>org.jeecqrs.sagas.SagaTracker</local>
-                <ejb-link>SagaTracker</ejb-link>
             </ejb-local-ref>
         </session> 
 
@@ -324,8 +259,8 @@
             <session-type>Stateless</session-type>
             <ejb-local-ref>
                 <ejb-ref-name>eventStorePersistence</ejb-ref-name>
+                <ejb-ref-type>Session</ejb-ref-type>
                 <local>org.jeeventstore.EventStorePersistence</local>
-                <ejb-link>EventStorePersistence</ejb-link>
             </ejb-local-ref>
             <ejb-local-ref>
                 <ejb-ref-name>eventBus</ejb-ref-name>
@@ -346,7 +281,6 @@
             <ejb-local-ref>
                 <ejb-ref-name>sagaTracker</ejb-ref-name>
                 <local>org.jeecqrs.sagas.SagaTracker</local>
-                <ejb-link>SagaTracker</ejb-link>
             </ejb-local-ref>
             <ejb-local-ref>
                 <ejb-ref-name>eventReplayer</ejb-ref-name>

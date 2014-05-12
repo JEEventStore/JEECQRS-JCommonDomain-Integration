@@ -16,7 +16,9 @@
     <name>JEECQRS JCommonDomain Integration: JEEventStore Services EJB</name>
 
     <description>
-        A preconfigured ejb that contains JEECQRS and JEEventStore services.
+        A preconfigured ejb that contains JEECQRS and JEEventStore integration services.
+
+        Add this and one of the Serialization and Persistence EJBs of your choice.
     </description>
 
     <dependencies>
@@ -26,17 +28,12 @@
             <artifactId>jeecqrs-jcommondomain-persistence-jeeventstore</artifactId>
             <version>${project.version}</version>
         </dependency>
-        
-        <dependency>
-            <groupId>org.jeeventstore</groupId>
-            <artifactId>jeeventstore-persistence-jpa</artifactId>
-            <version>${version.jeeventstore}</version>
-        </dependency>
 
         <dependency>
             <groupId>org.jeeventstore</groupId>
-            <artifactId>jeeventstore-serialization-gson</artifactId>
+            <artifactId>jeeventstore-core-async-ejb</artifactId>
             <version>${version.jeeventstore}</version>
+            <type>ejb</type>
         </dependency>
 
         <dependency>
@@ -47,21 +44,5 @@
         </dependency>
         
     </dependencies>
-
-    <build>
-        <plugins>
-
-            <!-- Configure the maven-ejb-plugin to use EJB 3.1 -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-ejb-plugin</artifactId>
-                <version>${version.ejb.plugin}</version>
-                <configuration>
-                    <ejbVersion>3.1</ejbVersion>
-                </configuration>
-            </plugin>
-
-        </plugins>
-    </build>
 
 </project>
