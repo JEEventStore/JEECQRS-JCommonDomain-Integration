@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 import javax.ejb.EJB;
 import org.jeecqrs.common.event.Event;
 import org.jeecqrs.event.EventBus;
+import org.jeecqrs.sagas.tracker.SagaTrackerEventBus;
 import org.jeeventstore.ConcurrencyException;
 import org.jeeventstore.DuplicateCommitException;
 import org.jeeventstore.EventStore;
@@ -21,7 +22,7 @@ import org.jeeventstore.WritableEventStream;
  * to the real event bus once they have successfully been committed to the
  * JEEventstore persistence (via {@link EventDispatcher}.
  */
-public class SagaTrackerPersistingEventBusService implements EventBus<Event> {
+public class SagaTrackerPersistingEventBusService implements SagaTrackerEventBus<Event> {
 
     private static final Logger log = Logger.getLogger(SagaTrackerPersistingEventBusService.class.getName());
 
