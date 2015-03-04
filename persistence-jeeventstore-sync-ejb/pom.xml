@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.jeecqrs</groupId>
+        <artifactId>jeecqrs-jcommondomain-parent</artifactId>
+        <version>1.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>jeecqrs-jcommondomain-persistence-jeeventstore-sync-ejb</artifactId>
+    <packaging>ejb</packaging>
+
+    <name>JEECQRS JCommonDomain Integration: JEEventStore Services EJB (Sync)</name>
+
+    <description>
+        A preconfigured ejb that contains JEECQRS and JEEventStore integration services.
+
+        Add this and one of the Serialization and Persistence EJBs of your choice.
+    </description>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.jeecqrs</groupId>
+            <artifactId>jeecqrs-jcommondomain-persistence-jeeventstore</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jeeventstore</groupId>
+            <artifactId>jeeventstore-core-sync-ejb</artifactId>
+            <version>${version.jeeventstore}</version>
+            <type>ejb</type>
+        </dependency>
+
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>6.0</version>
+            <scope>provided</scope>
+        </dependency>
+        
+    </dependencies>
+
+</project>

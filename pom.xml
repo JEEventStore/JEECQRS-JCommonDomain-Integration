@@ -14,6 +14,7 @@
         <module>core</module>
         <module>persistence-jeeventstore</module>
         <module>persistence-jeeventstore-ejb</module>
+        <module>persistence-jeeventstore-sync-ejb</module>
     </modules>
 
     <properties>
