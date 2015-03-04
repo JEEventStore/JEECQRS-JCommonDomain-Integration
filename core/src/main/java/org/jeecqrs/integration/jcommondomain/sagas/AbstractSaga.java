@@ -44,7 +44,7 @@ import org.jodah.typetools.TypeResolver;
  * @param <S>  the actual saga type
  */
 public abstract class AbstractSaga<S extends Saga<Event>> extends AbstractEventSourcedSaga
-        implements Saga<Event>, RegisterSaga<S>, SagaConfigProvider<S, Event>  {
+        implements Saga<Event>, RegisterSaga<S, Event>, SagaConfigProvider<S, Event>  {
 
     private String sagaId;
 
