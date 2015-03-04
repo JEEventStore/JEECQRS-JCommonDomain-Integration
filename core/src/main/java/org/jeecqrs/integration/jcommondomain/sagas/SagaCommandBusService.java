@@ -12,19 +12,19 @@ import org.jeecqrs.common.sagas.SagaCommandBus;
 public class SagaCommandBusService implements SagaCommandBus {
     
     @EJB(name="commandBusDelegate")
-    private org.jeecqrs.command.CommandBus<Command> commandBusDelegate;
+    private org.jeecqrs.command.CommandBus<Command<?>> commandBusDelegate;
 
     @EJB(name="reliableCommandBusDelegate")
-    private org.jeecqrs.command.ReliableCommandBus<Command> reliableDelegate;
+    private org.jeecqrs.command.ReliableCommandBus<Command<?>> reliableDelegate;
 
     @Override
-    public void send(Command command) {
+    public <C extends Command<?>> void send(C command) {
         reliableDelegate.send(command);
     }
 
     @Override
-    public void sendAndForget(Command command) {
+    public <C extends Command<?>> void sendAndForget(C command) {
         commandBusDelegate.send(command);
     }
-    
+
 }
