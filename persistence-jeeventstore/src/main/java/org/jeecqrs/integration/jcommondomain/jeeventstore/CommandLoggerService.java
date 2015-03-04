@@ -16,7 +16,7 @@ import org.jeeventstore.DuplicateCommitException;
 import org.jeeventstore.EventStore;
 import org.jeeventstore.WritableEventStream;
 
-public class CommandLoggerService implements CommandLogger<Command> {
+public class CommandLoggerService implements CommandLogger<Command<?>> {
 
     private final static Logger log = Logger.getLogger(CommandLoggerService.class.getName());
 
@@ -27,18 +27,19 @@ public class CommandLoggerService implements CommandLogger<Command> {
     private String commandBucketId = DefaultBucketIds.COMMANDS;
 
     @Asynchronous
-    public void log(Command command) {
+    public void log(Command<?> command) {
         log(command, new HashMap<String, String>());
     }
 
     @Override
     @Asynchronous
-    public void log(Command command, Map<String, String> metadata) {
+    public void log(Command<?> command, Map<String, String> metadata) {
         Validate.notNull(command, "command must not be null");
         Validate.notNull(metadata, "metadata must not be null");
         String commandId = command.id().toString();
         WritableEventStream stream = streamFor(command);
-        CommandLogEnvelope<Command> envelope = new CommandLogEnvelope<>(command, new HashMap<>(metadata));
+        CommandLogEnvelope<Command<?>> envelope = new CommandLogEnvelope<Command<?>>(command,
+                new HashMap<>(metadata));
         log.log(Level.FINE, "Logging command: {0}", envelope);
         stream.append(envelope);
         try {
