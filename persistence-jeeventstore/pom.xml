@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.jeecqrs</groupId>
         <artifactId>jeecqrs-jcommondomain-parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>jeecqrs-jcommondomain-persistence-jeeventstore</artifactId>
