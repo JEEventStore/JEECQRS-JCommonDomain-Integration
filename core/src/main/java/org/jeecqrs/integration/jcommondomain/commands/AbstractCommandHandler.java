@@ -2,14 +2,13 @@ package org.jeecqrs.integration.jcommondomain.commands;
 
 import org.jeecqrs.command.registry.autodiscover.AutoDiscoveredCommandHandler;
 import org.jeecqrs.common.commands.Command;
-import org.jeecqrs.sagas.Saga;
-import org.jeecqrs.sagas.config.autodiscover.SagaConfigProvider;
 import org.jodah.typetools.TypeResolver;
 
 /**
  *
+ * @param <C> the actual command type to be handled
  */
-public abstract class AbstractCommandHandler<C extends Command> implements AutoDiscoveredCommandHandler<C> {
+public abstract class AbstractCommandHandler<C extends Command<C>> implements AutoDiscoveredCommandHandler<C> {
 
     private final Class<C> commandClass;
 
@@ -23,7 +22,7 @@ public abstract class AbstractCommandHandler<C extends Command> implements AutoD
     }
 
     @Override
-    public Class<? extends C> handledCommandType() {
+    public Class<C> handledCommandType() {
         return commandClass;
     }
     
