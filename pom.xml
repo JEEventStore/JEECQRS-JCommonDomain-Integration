@@ -24,9 +24,9 @@
         <version.compiler.plugin>2.3.2</version.compiler.plugin>
         <version.ejb.plugin>2.3</version.ejb.plugin>
 
-        <version.jeeventstore>1.0.1-SNAPSHOT</version.jeeventstore>
-        <version.jeecqrs>1.0-SNAPSHOT</version.jeecqrs>
-        <version.jcommondomain>1.0-SNAPSHOT</version.jcommondomain>
+        <version.jeeventstore>1.1-SNAPSHOT</version.jeeventstore>
+        <version.jeecqrs>1.1-SNAPSHOT</version.jeecqrs>
+        <version.jcommondomain>1.1-SNAPSHOT</version.jcommondomain>
 
         <!-- Tests -->
         <version.testng>6.8</version.testng>
