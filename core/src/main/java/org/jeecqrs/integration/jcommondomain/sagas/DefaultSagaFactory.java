@@ -24,6 +24,7 @@ package org.jeecqrs.integration.jcommondomain.sagas;
 import org.jeecqrs.common.commands.CommandBus;
 import org.jeecqrs.common.sagas.SagaCommandBus;
 import org.jeecqrs.common.sagas.SagaTimeoutProvider;
+import org.jeecqrs.common.util.Validate;
 import org.jeecqrs.sagas.SagaFactory;
 
 /**
@@ -40,6 +41,9 @@ public class DefaultSagaFactory<S extends AbstractSaga<S>> implements SagaFactor
             Class<S> sagaClass,
             SagaCommandBus commandBus,
             SagaTimeoutProvider timeoutProvider) {
+        Validate.notNull(sagaClass, "sagaClass must not be null");
+        Validate.notNull(commandBus, "commandBus must not be null");
+        Validate.notNull(timeoutProvider, "timeoutProvider must not be null");
         this.sagaClass = sagaClass;
         this.commandBus = commandBus;
         this.timeoutProvider = timeoutProvider;
