@@ -23,7 +23,7 @@ package org.jeecqrs.integration.jcommondomain.sagas;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.EJB;
+import javax.inject.Inject;
 import org.jeecqrs.common.event.Event;
 import org.jeecqrs.common.sagas.AbstractEventSourcedSaga;
 import org.jeecqrs.common.sagas.SagaCommandBus;
@@ -48,10 +48,10 @@ public abstract class AbstractSaga<S extends Saga<Event>> extends AbstractEventS
 
     private String sagaId;
 
-    @EJB // only available upon registration of the saga in the system
+    @Inject // only available upon registration of the saga in the system
     private SagaCommandBus commandBus;
 
-    @EJB // only available upon registration of the saga in the system
+    @Inject // only available upon registration of the saga in the system
     private SagaTimeoutProvider timeoutProvider;
 
     private final List<SagaEventInterestEntry<? extends Event>> registeredEvents = new ArrayList<>();
