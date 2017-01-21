@@ -32,9 +32,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.jodah</groupId>
+            <groupId>net.jodah</groupId>
             <artifactId>typetools</artifactId>
-            <version>0.3.0</version>
+            <version>0.4.8</version>
         </dependency>
 
     </dependencies>

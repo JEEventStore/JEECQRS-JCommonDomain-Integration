@@ -1,8 +1,8 @@
 package org.jeecqrs.integration.jcommondomain.commands;
 
+import net.jodah.typetools.TypeResolver;
 import org.jeecqrs.command.registry.autodiscover.AutoDiscoveredCommandHandler;
 import org.jeecqrs.common.commands.Command;
-import org.jodah.typetools.TypeResolver;
 
 /**
  *

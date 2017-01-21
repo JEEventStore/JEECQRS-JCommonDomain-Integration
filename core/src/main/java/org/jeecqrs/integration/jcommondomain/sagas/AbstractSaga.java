@@ -21,23 +21,20 @@
 
 package org.jeecqrs.integration.jcommondomain.sagas;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.inject.Inject;
+import net.jodah.typetools.TypeResolver;
 import org.jeecqrs.common.event.Event;
 import org.jeecqrs.common.sagas.AbstractEventSourcedSaga;
 import org.jeecqrs.common.sagas.SagaCommandBus;
 import org.jeecqrs.common.sagas.SagaTimeoutProvider;
 import org.jeecqrs.event.EventInterestBuilder;
-import org.jeecqrs.sagas.Saga;
-import org.jeecqrs.sagas.SagaCommitIdGenerationStrategy;
-import org.jeecqrs.sagas.SagaConfig;
-import org.jeecqrs.sagas.SagaFactory;
-import org.jeecqrs.sagas.SagaIdentificationStrategy;
+import org.jeecqrs.sagas.*;
 import org.jeecqrs.sagas.config.SagaConfigBuilder;
 import org.jeecqrs.sagas.config.autodiscover.SagaConfigProvider;
 import org.jeecqrs.sagas.registry.autodiscover.RegisterSaga;
-import org.jodah.typetools.TypeResolver;
+
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *

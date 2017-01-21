@@ -21,9 +21,9 @@
 
 package org.jeecqrs.integration.jcommondomain.sagas;
 
+import net.jodah.typetools.TypeResolver;
 import org.jeecqrs.common.event.Event;
 import org.jeecqrs.sagas.Saga;
-import org.jodah.typetools.TypeResolver;
 
 /**
  * A saga that receives exactly one event.
