@@ -55,7 +55,7 @@ public abstract class AbstractSaga<S extends Saga<Event>> extends AbstractEventS
 
     /**
      * Setup the saga instance.
-     * This function is supposed to call {@link #listenTo()} for all events
+     * This function is supposed to call {@code #listenTo()} for all events
      * that this saga shall listen to.
      */
     protected abstract void setupSaga();
@@ -63,7 +63,7 @@ public abstract class AbstractSaga<S extends Saga<Event>> extends AbstractEventS
     /**
      * Listen to events.
      * Can only be called with static methods when the generic type
-     * is propagated to the {@link Sagaidentifier} (i.e., no dynamic generation).
+     * is propagated to the {@code Sagaidentifier} (i.e., no dynamic generation).
      * @param <T>
      * @param idf 
      */
