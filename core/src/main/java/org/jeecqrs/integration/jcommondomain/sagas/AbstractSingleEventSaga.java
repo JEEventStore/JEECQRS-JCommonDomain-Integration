@@ -35,7 +35,7 @@ public abstract class AbstractSingleEventSaga<S extends Saga<Event>, E extends E
 
     @Override
     protected void setupSaga() {
-        Class<E> eventClass = (Class) ReflectionUtils.findSuperClassParameterType(getClass(), AbstractSingleEventSaga.class, 1);
+        Class<E> eventClass = (Class) ReflectionUtils.findSuperClassParameterType(this, AbstractSingleEventSaga.class, 1);
         if (eventClass == null)
             throw new IllegalStateException("Event type parameter missing on " + getClass().getSimpleName());
         listenTo(eventClass, new SagaIdentifier<E>() {
