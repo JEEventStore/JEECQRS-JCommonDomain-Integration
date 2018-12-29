@@ -14,13 +14,13 @@ import org.jeeventstore.EventStore;
 public class SagaRepositoryService extends AbstractJEEventStoreSagaRepository<AbstractSaga<?>, String> 
     implements SagaRepository<Event> {
 
-    @EJB(name="eventStore")
+    @EJB
     private EventStore eventStore;
 
-    @EJB(name="sagaCommandBus")
+    @EJB
     private SagaCommandBus commandBus;
 
-    @EJB(name="sagaTimeoutProvider")
+    @EJB
     private SagaTimeoutProvider timeoutProvider;
 
     @Resource(name="sagaBucketId")

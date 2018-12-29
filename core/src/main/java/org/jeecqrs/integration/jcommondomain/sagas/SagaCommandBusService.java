@@ -1,8 +1,9 @@
 package org.jeecqrs.integration.jcommondomain.sagas;
 
-import javax.ejb.EJB;
 import org.jeecqrs.common.commands.Command;
 import org.jeecqrs.common.sagas.SagaCommandBus;
+
+import javax.ejb.EJB;
 
 /**
  * Saga command bus service.
@@ -11,10 +12,10 @@ import org.jeecqrs.common.sagas.SagaCommandBus;
  */
 public class SagaCommandBusService implements SagaCommandBus {
     
-    @EJB(name="commandBusDelegate")
+    @EJB
     private org.jeecqrs.command.CommandBus<Command<?>> commandBusDelegate;
 
-    @EJB(name="reliableCommandBusDelegate")
+    @EJB
     private org.jeecqrs.command.ReliableCommandBus<Command<?>> reliableDelegate;
 
     @Override

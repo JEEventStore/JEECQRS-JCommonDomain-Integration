@@ -1,22 +1,23 @@
 package org.jeecqrs.integration.jcommondomain.jeeventstore;
 
-import java.io.Serializable;
-import java.util.Iterator;
-import javax.ejb.EJB;
-import javax.ejb.Lock;
-import javax.ejb.LockType;
 import org.jeecqrs.common.event.Event;
 import org.jeecqrs.common.event.EventBus;
 import org.jeeventstore.ChangeSet;
 import org.jeeventstore.EventStoreCommitListener;
 import org.jeeventstore.EventStoreCommitNotification;
 
+import javax.ejb.EJB;
+import javax.ejb.Lock;
+import javax.ejb.LockType;
+import java.io.Serializable;
+import java.util.Iterator;
+
 /**
  * Bridge between JEEventStore and EventBus.
  */
 public class EventDispatcher implements EventStoreCommitListener {
 
-    @EJB(name="eventBus")
+    @EJB
     private EventBus eventBus;
 
     @Override

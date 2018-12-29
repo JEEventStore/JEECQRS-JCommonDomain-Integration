@@ -21,10 +21,11 @@
 
 package org.jeecqrs.integration.jcommondomain.sagas;
 
-import javax.ejb.EJB;
 import org.jeecqrs.common.event.Event;
 import org.jeecqrs.common.sagas.SagaTimeoutProvider;
 import org.jeecqrs.sagas.SagaTimeoutRequest;
+
+import javax.ejb.EJB;
 
 /**
  * Saga Timeout provider service.
@@ -32,7 +33,7 @@ import org.jeecqrs.sagas.SagaTimeoutRequest;
  */
 public class SagaTimeoutProviderService implements SagaTimeoutProvider {
 
-    @EJB(name="sagaTrackerDelegate")
+    @EJB
     private org.jeecqrs.sagas.SagaTracker<Event> sagaTrackerDelegate;
 
     @Override

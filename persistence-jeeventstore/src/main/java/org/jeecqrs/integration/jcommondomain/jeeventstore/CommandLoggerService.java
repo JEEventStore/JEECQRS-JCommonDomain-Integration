@@ -1,14 +1,7 @@
 package org.jeecqrs.integration.jcommondomain.jeeventstore;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.annotation.Resource;
-import javax.ejb.Asynchronous;
-import javax.ejb.EJB;
-import org.jeecqrs.command.log.CommandLogEnvelope;
 import org.jeecqrs.command.CommandLogger;
+import org.jeecqrs.command.log.CommandLogEnvelope;
 import org.jeecqrs.common.commands.Command;
 import org.jeecqrs.common.util.Validate;
 import org.jeeventstore.ConcurrencyException;
@@ -16,11 +9,19 @@ import org.jeeventstore.DuplicateCommitException;
 import org.jeeventstore.EventStore;
 import org.jeeventstore.WritableEventStream;
 
+import javax.annotation.Resource;
+import javax.ejb.Asynchronous;
+import javax.ejb.EJB;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class CommandLoggerService implements CommandLogger<Command<?>> {
 
     private final static Logger log = Logger.getLogger(CommandLoggerService.class.getName());
 
-    @EJB(name="eventStore")
+    @EJB
     private EventStore eventStore;
 
     @Resource(name="commandBucketId")

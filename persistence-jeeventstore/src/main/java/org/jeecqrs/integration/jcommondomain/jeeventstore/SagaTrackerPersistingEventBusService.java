@@ -1,16 +1,16 @@
 package org.jeecqrs.integration.jcommondomain.jeeventstore;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.annotation.Resource;
-import javax.ejb.EJB;
 import org.jeecqrs.common.event.Event;
-import org.jeecqrs.event.EventBus;
 import org.jeecqrs.sagas.tracker.SagaTrackerEventBus;
 import org.jeeventstore.ConcurrencyException;
 import org.jeeventstore.DuplicateCommitException;
 import org.jeeventstore.EventStore;
 import org.jeeventstore.WritableEventStream;
+
+import javax.annotation.Resource;
+import javax.ejb.EJB;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Provides a persistent event bus for the saga tracker that guarantees that
@@ -26,7 +26,7 @@ public class SagaTrackerPersistingEventBusService implements SagaTrackerEventBus
 
     private static final Logger log = Logger.getLogger(SagaTrackerPersistingEventBusService.class.getName());
 
-    @EJB(name="eventStore")
+    @EJB
     private EventStore eventStore;
 
     @Resource(name="sagaTimeoutEventBucketId")

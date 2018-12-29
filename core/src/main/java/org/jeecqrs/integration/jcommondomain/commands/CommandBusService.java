@@ -21,9 +21,10 @@
 
 package org.jeecqrs.integration.jcommondomain.commands;
 
-import javax.ejb.EJB;
 import org.jeecqrs.common.commands.Command;
 import org.jeecqrs.common.commands.CommandBus;
+
+import javax.ejb.EJB;
 
 /**
  * Command bus service.
@@ -31,7 +32,7 @@ import org.jeecqrs.common.commands.CommandBus;
  */
 public class CommandBusService implements CommandBus {
 
-    @EJB(name="commandBusDelegate")
+    @EJB
     private org.jeecqrs.command.CommandBus<Command> commandBusDelegate;
 
     @Override

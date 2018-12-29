@@ -1,15 +1,16 @@
 package org.jeecqrs.integration.jcommondomain.jeeventstore;
 
-import java.util.Iterator;
-import java.util.logging.Logger;
-import javax.annotation.Resource;
-import javax.ejb.EJB;
-import javax.enterprise.inject.Instance;
-import javax.inject.Inject;
 import org.jeecqrs.common.event.Event;
 import org.jeecqrs.sagas.SagaTracker;
 import org.jeecqrs.startup.AbstractApplicationStartup;
 import org.jeeventstore.EventStoreCommitNotifier;
+
+import javax.annotation.Resource;
+import javax.ejb.EJB;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
+import java.util.Iterator;
+import java.util.logging.Logger;
 
 /**
  *
@@ -18,19 +19,19 @@ public class ApplicationStartup extends AbstractApplicationStartup {
 
     private static final Logger log = Logger.getLogger(ApplicationStartup.class.getName());
 
-    @EJB(name="sagaTracker")
+    @EJB
     private SagaTracker<Event> sagaTracker;
 
-    @EJB(name="eventReplayer")
+    @EJB
     private EventReplayer replayer;
 
     @Inject
     private Instance<RegisterBucketId> autoRegisterBucketId;
 
-    @EJB(name="eventDispatcher")
+    @EJB
     private EventDispatcher eventDispatcher;
 
-    @EJB(name="eventStoreCommitNotifier")
+    @EJB
     private EventStoreCommitNotifier commitNotifier;
 
     @Resource(name="sagaTimeoutEventBucketId")

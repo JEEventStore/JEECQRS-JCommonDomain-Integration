@@ -21,9 +21,10 @@
 
 package org.jeecqrs.integration.jcommondomain.event;
 
-import javax.ejb.EJB;
 import org.jeecqrs.common.event.Event;
 import org.jeecqrs.common.event.EventBus;
+
+import javax.ejb.EJB;
 
 /**
  * Event bus service.
@@ -31,7 +32,7 @@ import org.jeecqrs.common.event.EventBus;
  */
 public class EventBusService implements EventBus {
     
-    @EJB(name="eventBusDelegate")
+    @EJB
     private org.jeecqrs.event.EventBus<Event> eventBusDelegate;
 
     @Override

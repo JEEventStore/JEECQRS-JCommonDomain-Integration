@@ -11,6 +11,7 @@
 /persistence-jeeventstore-infra-jpa/target/
 /persistence-jeeventstore-infra-gson/target/
 /persistence-jeeventstore-sync-ejb/target/
+/bom-all/target/
 
 # IntelliJ
 .idea/

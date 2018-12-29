@@ -1,17 +1,18 @@
 package org.jeecqrs.integration.jcommondomain.jeeventstore;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.ejb.EJB;
 import org.jeecqrs.common.event.Event;
 import org.jeecqrs.sagas.tracker.SagaTrackerEventSerializer;
 import org.jeeventstore.EventSerializer;
+
+import javax.ejb.EJB;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  */
 public class JEEventStoreDelegatingSagaTrackerEventSerializer implements SagaTrackerEventSerializer<Event> {
 
-    @EJB(name="eventSerializerDelegate")
+    @EJB
     private EventSerializer eventSerializer;
 
     @Override
