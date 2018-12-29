@@ -21,11 +21,11 @@
 
 package org.jeecqrs.integration.jcommondomain.sagas;
 
-import net.jodah.typetools.TypeResolver;
 import org.jeecqrs.common.event.Event;
 import org.jeecqrs.common.sagas.AbstractEventSourcedSaga;
 import org.jeecqrs.common.sagas.SagaCommandBus;
 import org.jeecqrs.common.sagas.SagaTimeoutProvider;
+import org.jeecqrs.common.util.ReflectionUtils;
 import org.jeecqrs.event.EventInterestBuilder;
 import org.jeecqrs.sagas.*;
 import org.jeecqrs.sagas.config.SagaConfigBuilder;
@@ -70,9 +70,8 @@ public abstract class AbstractSaga<S extends Saga<Event>> extends AbstractEventS
     protected final <T extends Event> void listenTo(SagaIdentifier<T> idf) {
         if (idf == null)
             throw new NullPointerException("SagaIdentifier must not be null");
-        Class<?>[] typeArguments = TypeResolver.resolveRawArguments(SagaIdentifier.class, idf.getClass());
-        Class<? extends Event> eventClass = (Class) typeArguments[0];
-        if (TypeResolver.Unknown.class.equals(eventClass)) {
+        Class<? extends Event> eventClass = (Class) ReflectionUtils.findSuperClassParameterType(idf, SagaIdentifier.class, 0);
+        if (eventClass == null) {
             throw new IllegalStateException("Event type parameter missing on "
                     + SagaIdentifier.class.getSimpleName() + " for #listenTo() in class "
                     + getClass().getName());

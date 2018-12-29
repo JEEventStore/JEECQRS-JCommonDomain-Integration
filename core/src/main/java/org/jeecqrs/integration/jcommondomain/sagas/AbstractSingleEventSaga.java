@@ -21,8 +21,8 @@
 
 package org.jeecqrs.integration.jcommondomain.sagas;
 
-import net.jodah.typetools.TypeResolver;
 import org.jeecqrs.common.event.Event;
+import org.jeecqrs.common.util.ReflectionUtils;
 import org.jeecqrs.sagas.Saga;
 
 /**
@@ -35,9 +35,8 @@ public abstract class AbstractSingleEventSaga<S extends Saga<Event>, E extends E
 
     @Override
     protected void setupSaga() {
-        Class<?>[] typeArguments = TypeResolver.resolveRawArguments(AbstractSingleEventSaga.class, getClass());
-        Class<E> eventClass = (Class) typeArguments[1];
-        if (TypeResolver.Unknown.class.equals(eventClass))
+        Class<E> eventClass = (Class) ReflectionUtils.findSuperClassParameterType(getClass(), AbstractSingleEventSaga.class, 1);
+        if (eventClass == null)
             throw new IllegalStateException("Event type parameter missing on " + getClass().getSimpleName());
         listenTo(eventClass, new SagaIdentifier<E>() {
             @Override

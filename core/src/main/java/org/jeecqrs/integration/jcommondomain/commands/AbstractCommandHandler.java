@@ -1,8 +1,8 @@
 package org.jeecqrs.integration.jcommondomain.commands;
 
-import net.jodah.typetools.TypeResolver;
 import org.jeecqrs.command.registry.autodiscover.AutoDiscoveredCommandHandler;
 import org.jeecqrs.common.commands.Command;
+import org.jeecqrs.common.util.ReflectionUtils;
 
 /**
  *
@@ -13,9 +13,8 @@ public abstract class AbstractCommandHandler<C extends Command<C>> implements Au
     private final Class<C> commandClass;
 
     public AbstractCommandHandler() {
-        Class<?>[] typeArguments = TypeResolver.resolveRawArguments(AbstractCommandHandler.class, getClass());
-        commandClass = (Class) typeArguments[0];
-        if (TypeResolver.Unknown.class.equals(commandClass))
+        commandClass = (Class) ReflectionUtils.findSuperClassParameterType(this, AbstractCommandHandler.class, 0);
+        if (commandClass == null)
             throw new IllegalStateException("Command type parameter missing on " +
                     AbstractCommandHandler.class.getSimpleName() + " for class " +
                     getClass().getName());
