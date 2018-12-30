@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.jeecqrs</groupId>
         <artifactId>jeecqrs-jcommondomain-parent</artifactId>
-        <version>1.4</version>
+        <version>1.4.1</version>
     </parent>
 
     <artifactId>jeecqrs-jcommondomain-persistence-jeeventstore-ejb</artifactId>
@@ -21,18 +21,28 @@
         Add this and one of the Serialization and Persistence EJBs of your choice.
     </description>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.jeecqrs</groupId>
+                <artifactId>jeecqrs-jcommondomain-bom-all</artifactId>
+                <version>${project.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
 
         <dependency>
             <groupId>org.jeecqrs</groupId>
             <artifactId>jeecqrs-jcommondomain-persistence-jeeventstore</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.jeeventstore</groupId>
             <artifactId>jeeventstore-core-async-ejb</artifactId>
-            <version>${version.jeeventstore}</version>
             <type>ejb</type>
         </dependency>
 

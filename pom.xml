@@ -4,7 +4,7 @@
 
     <groupId>org.jeecqrs</groupId>
     <artifactId>jeecqrs-jcommondomain-parent</artifactId>
-    <version>1.4</version>
+    <version>1.4.1</version>
 
     <packaging>pom</packaging>
 
@@ -51,9 +51,8 @@
         <version.compiler.plugin>2.3.2</version.compiler.plugin>
         <version.ejb.plugin>2.3</version.ejb.plugin>
 
-        <version.jeeventstore>1.1.8</version.jeeventstore>
-        <version.jeecqrs>1.2</version.jeecqrs>
-        <version.jcommondomain>1.2.1</version.jcommondomain>
+        <version.jeecqrs>1.2.3</version.jeecqrs>
+        <version.jcommondomain>1.2.2</version.jcommondomain>
 
         <!-- Tests -->
         <version.testng>6.8</version.testng>

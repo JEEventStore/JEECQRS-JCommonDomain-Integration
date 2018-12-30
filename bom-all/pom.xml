@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.jeecqrs</groupId>
         <artifactId>jeecqrs-jcommondomain-parent</artifactId>
-        <version>1.4</version>
+        <version>1.4.1</version>
     </parent>
 
     <artifactId>jeecqrs-jcommondomain-bom-all</artifactId>
@@ -19,9 +19,25 @@
         <dependencies>
 
             <dependency>
-                <groupId>org.jeeventstore</groupId>
-                <artifactId>jeeventstore-bom-all</artifactId>
-                <version>${version.jeeventstore}</version>
+                <groupId>org.jeecqrs</groupId>
+                <artifactId>jeecqrs-bom-all</artifactId>
+                <version>${version.jeecqrs}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jeecqrs</groupId>
+                <artifactId>jcommondomain-bom</artifactId>
+                <version>${version.jcommondomain}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jeecqrs</groupId>
+                <artifactId>jcommondomain-persistence-jeeventstore-bom</artifactId>
+                <version>${version.jcommondomain}</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
@@ -34,26 +50,22 @@
 
             <dependency>
                 <groupId>org.jeecqrs</groupId>
-                <artifactId>jeecqrs-core</artifactId>
-                <version>${version.jeecqrs}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.jeecqrs</groupId>
-                <artifactId>jcommondomain-core</artifactId>
-                <version>${version.jcommondomain}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.jeecqrs</groupId>
-                <artifactId>jcommondomain-persistence-jeeventstore</artifactId>
-                <version>${version.jcommondomain}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.jeecqrs</groupId>
                 <artifactId>jeecqrs-jcommondomain-persistence-jeeventstore</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jeecqrs</groupId>
+                <artifactId>jeecqrs-jcommondomain-persistence-jeeventstore-ejb</artifactId>
+                <version>${project.version}</version>
+                <type>ejb</type>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jeecqrs</groupId>
+                <version>${project.version}</version>
+                <artifactId>jeecqrs-jcommondomain-persistence-jeeventstore-sync-ejb</artifactId>
+                <type>ejb</type>
             </dependency>
 
         </dependencies>
